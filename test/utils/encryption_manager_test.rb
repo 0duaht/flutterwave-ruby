@@ -9,12 +9,12 @@ class EncryptionManagerTest < Minitest::Test
   end
 
   def test_that_it_encrypts_appropriately
-    assert_equal Flutterwave::EncryptionManager.encrypt(@plain_text, @key),
-                 @cipher_text
+    assert_equal Flutterwave::Utils::EncryptionManager.encrypt(
+      @plain_text, @key), @cipher_text
   end
 
   def test_that_it_decrypts_appropriately
-    assert_equal Flutterwave::EncryptionManager.decrypt(@cipher_text, @key),
-                 @plain_text
+    assert_equal Flutterwave::Utils::EncryptionManager.decrypt(
+      @cipher_text, @key), @plain_text
   end
 end
