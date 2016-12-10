@@ -1,10 +1,10 @@
-require 'flutterwave/utils/network_manager'
-require 'flutterwave/utils/encryption_manager'
 require 'flutterwave/utils/constants'
+require 'flutterwave/utils/helpers'
 require 'flutterwave/response'
 
 module Flutterwave
   class BVN
+    include Flutterwave::Helpers
     attr_accessor :client
 
     def initialize(client)
@@ -45,12 +45,8 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def post(url, data)
-      Flutterwave::Utils::NetworkManager.post(url, data)
-    end
-
     def encrypt(plain_text)
-      Flutterwave::Utils::EncryptionManager.encrypt(plain_text, client.api_key)
+      encrypt_data(plain_text, client.api_key)
     end
   end
 end

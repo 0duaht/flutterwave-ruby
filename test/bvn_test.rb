@@ -22,7 +22,8 @@ class BVNTest < Minitest::Test
     @response_data = {
       'data' => @common_response.merge(
         'responseCode' => '00'
-      )
+      ),
+      'status' => 'success'
     }
   end
 
@@ -31,7 +32,8 @@ class BVNTest < Minitest::Test
       'data' => @common_response.merge(
         'responseCode' => '00',
         'transactionReference' => Faker::Crypto.md5[0, 7].upcase
-      )
+      ),
+      'status' => 'success'
     }
     @url = Flutterwave::Utils::Constants::BVN[:verify_url]
 

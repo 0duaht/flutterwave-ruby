@@ -8,11 +8,13 @@ class ResponseTest < Minitest::Test
       'transactionReference' => @ref
     )
     @success_response = {
-      'data' => common_response.merge('responseCode' => '00')
+      'data' => common_response.merge('responseCode' => '00'),
+      'status' => 'success'
     }
 
     @failure_response = {
-      'data' => common_response.merge('responseCode' => 'B02')
+      'data' => common_response.merge('responseCode' => 'B02'),
+      'status' => 'success'
     }
   end
 

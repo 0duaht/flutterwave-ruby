@@ -28,7 +28,7 @@ class NetworkManagerTest < Minitest::Test
   end
 
   def test_that_it_makes_network_calls_successfully
-    response_data = { 'data' => @response }
+    response_data = { 'data' => @response, 'status' => 'success' }
     stub_flutterwave.to_return(status: 200, body: response_data.to_json)
 
     assert_equal response_data,

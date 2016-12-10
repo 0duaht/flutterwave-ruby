@@ -9,6 +9,10 @@ module Flutterwave
         resend_url: '/pwc/rest/bvn/resendotp/',
         validate_url: '/pwc/rest/bvn/validate/'
       }.freeze
+
+      BIN = {
+        check_url: '/pwc/rest/fw/check/'
+      }.freeze
     end
   end
 end
