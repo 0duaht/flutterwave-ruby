@@ -4,8 +4,7 @@ class IPTest < Minitest::Test
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
-    client = Flutterwave::Client.new(merchant_key, api_key)
-    @ip = Flutterwave::IP.new(client)
+    @client = Flutterwave::Client.new(merchant_key, api_key)
     @ip_address = Faker::Internet.ip_v4_address
   end
 
@@ -37,7 +36,7 @@ class IPTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @ip.check(@ip_address)
+    response = @client.ip.check(@ip_address)
     assert response.successful?
   end
 end

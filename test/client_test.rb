@@ -10,4 +10,12 @@ class ClientTest < Minitest::Test
   def test_that_it_has_bvn_instance
     refute_nil @client.instance_variable_get(:@bvn)
   end
+
+  def test_that_it_has_bin_instance
+    refute_nil @client.instance_variable_get(:@bin)
+  end
+
+  def test_that_it_has_ip_instance
+    refute_nil @client.instance_variable_get(:@ip)
+  end
 end

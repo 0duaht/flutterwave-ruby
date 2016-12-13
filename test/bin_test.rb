@@ -5,8 +5,7 @@ class BINTest < Minitest::Test
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
-    client = Flutterwave::Client.new(merchant_key, api_key)
-    @bin = Flutterwave::BIN.new(client)
+    @client = Flutterwave::Client.new(merchant_key, api_key)
     @common_response = TestData::COMMON_RESPONSE
     @card_bin = Faker::Number.number(6)
   end
@@ -34,7 +33,7 @@ class BINTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @bin.check(@card_bin)
+    response = @client.bin.check(@card_bin)
     assert response.successful?
   end
 end

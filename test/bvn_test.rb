@@ -6,8 +6,7 @@ class BVNTest < Minitest::Test
     @otp_option = 'SMS'
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
-    client = Flutterwave::Client.new(merchant_key, api_key)
-    @bvn = Flutterwave::BVN.new(client)
+    @client = Flutterwave::Client.new(merchant_key, api_key)
     @common_response = TestData::COMMON_RESPONSE
   end
 
@@ -39,7 +38,7 @@ class BVNTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @bvn.verify(@otp_option, @bvn_number)
+    response = @client.bvn.verify(@otp_option, @bvn_number)
     assert response.successful?
   end
 
@@ -49,7 +48,7 @@ class BVNTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @bvn.resend(@otp_option, Faker::Crypto.md5[0, 7].upcase)
+    response = @client.bvn.resend(@otp_option, Faker::Crypto.md5[0, 7].upcase)
     assert response.successful?
   end
 
@@ -59,7 +58,7 @@ class BVNTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @bvn.validate(
+    response = @client.bvn.validate(
       @otp_option, Faker::Crypto.md5[0, 7].upcase, @bvn_number)
     assert response.successful?
   end
