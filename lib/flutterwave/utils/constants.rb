@@ -13,6 +13,14 @@ module Flutterwave
       BIN = {
         check_url: '/pwc/rest/fw/check/'
       }.freeze
+
+      CARD_ENQUIRY = {
+        base_url: '/pwc/rest/card/mvva/cardenquiry'
+      }.freeze
+
+      IP = {
+        check_url: '/pwc/rest/fw/ipcheck'
+      }.freeze 
     end
   end
 end

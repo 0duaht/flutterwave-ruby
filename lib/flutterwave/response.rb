@@ -7,16 +7,22 @@ module Flutterwave
     end
 
     def successful?
-      responseCode == '00'
+      (try('responseCode') || try('responsecode')) == '00'
     end
 
     def failed?
       !successful?
     end
 
-    def method_missing(method, *args)
-      return response.send(method, *args) if response.respond_to?(method)
+    def method_missing(method_name, *args)
+      return response.send(method_name, *args) if response.respond_to?(method_name)
       super
+    end
+
+    def try(method_name)
+      instance_eval method_name
+    rescue NameError
+      nil
     end
   end
 end

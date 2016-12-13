@@ -1,4 +1,3 @@
-require 'flutterwave/utils/constants'
 require 'flutterwave/utils/helpers'
 require 'flutterwave/response'
 
