@@ -18,4 +18,8 @@ class ClientTest < Minitest::Test
   def test_that_it_has_ip_instance
     refute_nil @client.instance_variable_get(:@ip)
   end
+
+  def test_that_it_has_bank_instance
+    refute_nil @client.instance_variable_get(:@bank)
+  end
 end

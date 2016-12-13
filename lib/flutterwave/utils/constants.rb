@@ -4,6 +4,10 @@ module Flutterwave
       BASE_URL = 'http://staging1flutterwave.co:8080'.freeze
       KEY = 'tk_0f86a4ef436f76faab1d3'.freeze
 
+      BANK = {
+        list_url: '/pwc/rest/fw/banks'
+      }.freeze
+
       BVN = {
         verify_url: '/pwc/rest/bvn/verify/',
         resend_url: '/pwc/rest/bvn/resendotp/',
@@ -12,10 +16,6 @@ module Flutterwave
 
       BIN = {
         check_url: '/pwc/rest/fw/check/'
-      }.freeze
-
-      CARD_ENQUIRY = {
-        base_url: '/pwc/rest/card/mvva/cardenquiry'
       }.freeze
 
       IP = {
