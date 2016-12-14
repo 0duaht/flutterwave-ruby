@@ -20,7 +20,18 @@ module Flutterwave
 
       IP = {
         check_url: '/pwc/rest/fw/ipcheck'
-      }.freeze 
+      }.freeze
+
+      CARD = {
+        tokenize_url: '/pwc/rest/card/mvva/tokenize',
+        preauthorize_url: '/pwc/rest/card/mvva/preauthorize',
+        capture_url: '/pwc/rest/card/mvva/capture',
+        refund_url: '/pwc/rest/card/mvva/refund',
+        void_url: '/pwc/rest/card/mvva/void',
+        enquiry_url: '/pwc/rest/card/mvva/cardenquiry',
+        validate_enquiry_url: '/pwc/rest/card/mvva/cardenquiry/validate',
+        charge_url: '/pwc/rest/card/mvva/pay'
+      }.freeze
     end
   end
 end

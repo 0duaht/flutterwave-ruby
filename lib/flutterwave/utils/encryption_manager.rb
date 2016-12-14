@@ -11,7 +11,7 @@ module Flutterwave
         cipher = OpenSSL::Cipher::Cipher.new('des-ede3')
         cipher.encrypt
         cipher.key = key
-        cipher_text = cipher.update(text)
+        cipher_text = cipher.update(text.to_s)
         cipher_text << cipher.final
 
         Base64.encode64(cipher_text).gsub(/\n/, '')
@@ -22,7 +22,7 @@ module Flutterwave
         cipher = OpenSSL::Cipher::Cipher.new('des-ede3')
         cipher.decrypt
         cipher.key = key
-        plain_text = cipher.update(Base64.decode64(text))
+        plain_text = cipher.update(Base64.decode64(text.to_s))
 
         plain_text << cipher.final
       end
