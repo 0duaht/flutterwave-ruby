@@ -15,6 +15,36 @@ class CardTest < Minitest::Test
     ).to_return(status: 200, body: @response_data.to_json)
   end
 
+  def sample_verify_body
+    {
+      trxreference: "FLW#{Faker::Number.number(8)}"
+    }
+  end
+
+  def sample_verify_response
+    {
+      'data' => {
+        'responsecode' => '00',
+        'batchno' => Time.now.strftime('%Y%m%d'),
+        'avsresponsecode' => nil,
+        'responsemessage' => 'Approved',
+        'transactionno' => Faker::Number.number(10),
+        'transactionIdentifier' => "FLWT#{Faker::Number.number(8)}",
+        'orderinfo' => 'O' << "FLW#{Faker::Number.number(8)}",
+        'responsetoken' => nil,
+        'avsresponsemessage' => nil,
+        'authorizeId' => Faker::Number.number(6),
+        'receiptno' => Faker::Number.number(12),
+        'otptransactionidentifier' => nil,
+        'merchtransactionreference' => 'Kudi_test%2F' << ''\
+          "FLW#{Faker::Number.number(8)}",
+        'transactionreference' => "FLW#{Faker::Number.number(8)}",
+        'responsehtml' => nil
+      },
+      'status' => 'success'
+    }
+  end
+
   def sample_charge_response
     {
       'data' => {
@@ -296,6 +326,16 @@ class CardTest < Minitest::Test
     stub_flutterwave
 
     response = @client.card.recurrent_charge(sample_recurrent_charge_body)
+    assert response.successful?
+  end
+
+  def test_verify
+    @response_data = sample_verify_response
+    @url = Flutterwave::Utils::Constants::CARD[:verify_url]
+
+    stub_flutterwave
+
+    response = @client.card.verify(sample_verify_body)
     assert response.successful?
   end
 end

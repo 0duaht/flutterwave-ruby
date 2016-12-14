@@ -246,6 +246,22 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    def verify(options)
+      @options = options
+
+      request_params = {
+        trxreference: encrypt(:trxreference),
+        merchantid: client.merchant_key
+      }
+
+      response = post(
+        Flutterwave::Utils::Constants::CARD[:verify_url],
+        request_params
+      )
+
+      Flutterwave::Response.new(response)
+    end
+
     def encrypt(key)
       plain_text = options[key].to_s
       raise Flutterwave::Utils::MissingKeyError.new(

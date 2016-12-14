@@ -30,7 +30,8 @@ module Flutterwave
         void_url: '/pwc/rest/card/mvva/void',
         enquiry_url: '/pwc/rest/card/mvva/cardenquiry',
         validate_enquiry_url: '/pwc/rest/card/mvva/cardenquiry/validate',
-        charge_url: '/pwc/rest/card/mvva/pay'
+        charge_url: '/pwc/rest/card/mvva/pay',
+        verify_url: '/pwc/rest/card/mvva/status'
       }.freeze
     end
   end
