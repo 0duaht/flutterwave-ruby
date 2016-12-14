@@ -26,4 +26,8 @@ class ClientTest < Minitest::Test
   def test_that_it_has_card_instance
     refute_nil @client.instance_variable_get(:@card)
   end
+
+  def test_that_it_has_account_instance
+    refute_nil @client.instance_variable_get(:@account)
+  end
 end

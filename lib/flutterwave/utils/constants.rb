@@ -33,6 +33,13 @@ module Flutterwave
         charge_url: '/pwc/rest/card/mvva/pay',
         verify_url: '/pwc/rest/card/mvva/status'
       }.freeze
+
+      ACCOUNT = {
+        charge_url: '/pwc/rest/account/pay',
+        validate_url: '/pwc/rest/account/pay/validate',
+        alt_validate_url: '/pwc/rest/accessbank/ussd/validate',
+        resend_url: '/pwc/rest/account/pay/resendotp'
+      }.freeze
     end
   end
 end

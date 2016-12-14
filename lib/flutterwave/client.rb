@@ -3,11 +3,12 @@ require 'flutterwave/bin'
 require 'flutterwave/ip'
 require 'flutterwave/bank'
 require 'flutterwave/card'
+require 'flutterwave/account'
 
 module Flutterwave
   class Client
     attr_accessor :merchant_key, :api_key, :bvn, :bin, :ip, :bank,
-                  :card
+                  :card, :account
 
     def initialize(merchant_key, api_key)
       @merchant_key = merchant_key
@@ -18,6 +19,7 @@ module Flutterwave
       @ip = Flutterwave::IP.new(self)
       @bank = Flutterwave::BankAPI.new(self)
       @card = Flutterwave::Card.new(self)
+      @account = Flutterwave::Account.new(self)
     end
   end
 end
