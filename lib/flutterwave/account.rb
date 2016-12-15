@@ -11,6 +11,60 @@ module Flutterwave
       @client = client
     end
 
+    def initiate_recurrent(options)
+      @options = options
+
+      request_params = {
+        accountNumber: encrypt(:accountNumber),
+        merchantid: client.merchant_key
+      }
+
+      response = post(
+        Flutterwave::Utils::Constants::ACCOUNT[:initiate_recurrent_url],
+        request_params
+      )
+
+      Flutterwave::Response.new(response)
+    end
+
+    def validate_recurrent(options)
+      @options = options
+
+      request_params = {
+        accountNumber: encrypt(:accountNumber),
+        otp: encrypt(:otp),
+        reference: encrypt(:reference),
+        billingamount: encrypt(:billingamount),
+        debitnarration: encrypt(:debitnarration),
+        merchantid: client.merchant_key
+      }
+
+      response = post(
+        Flutterwave::Utils::Constants::ACCOUNT[:validate_recurrent_url],
+        request_params
+      )
+
+      Flutterwave::Response.new(response)
+    end
+
+    def charge_recurrent(options)
+      @options = options
+
+      request_params = {
+        accountToken: encrypt(:accountToken),
+        billingamount: encrypt(:billingamount),
+        debitnarration: encrypt(:debitnarration),
+        merchantid: client.merchant_key
+      }
+
+      response = post(
+        Flutterwave::Utils::Constants::ACCOUNT[:charge_recurrent_url],
+        request_params
+      )
+
+      Flutterwave::Response.new(response)
+    end
+
     def charge(options)
       @options = options
       options[:country] ||= 'NG'

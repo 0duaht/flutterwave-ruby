@@ -15,14 +15,20 @@ class AccountTest < Minitest::Test
     ).to_return(status: 200, body: @response_data.to_json)
   end
 
-  def sample_charge_response
+  def sample_initiate_recurrent_response
     {
       'data' => {
-        'responsecode' => '02',
+        'responsecode' => '00',
         'responsemessage' => Faker::Lorem.sentence,
-        'transactionreference' => Faker::Crypto.md5[0, 5]
+        'transactionreference' => "FLW#{Faker::Number.number(8)}"
       },
       'status' => 'success'
+    }
+  end
+
+  def sample_initiate_recurrent_body
+    {
+      accountNumber: Faker::Number.number(10),
     }
   end
 
@@ -41,6 +47,17 @@ class AccountTest < Minitest::Test
     {
       validateoption: 'SMS',
       transactionreference: Faker::Crypto.md5[0, 5]
+    }
+  end
+
+  def sample_charge_response
+    {
+      'data' => {
+        'responsecode' => '02',
+        'responsemessage' => Faker::Lorem.sentence,
+        'transactionreference' => Faker::Crypto.md5[0, 5]
+      },
+      'status' => 'success'
     }
   end
 
@@ -76,6 +93,16 @@ class AccountTest < Minitest::Test
     stub_flutterwave
 
     response = @client.account.resend(sample_resend_body)
+    assert response.successful?
+  end
+
+  def test_initiate_recurrent
+    @response_data = sample_initiate_recurrent_response
+    @url = Flutterwave::Utils::Constants::ACCOUNT[:initiate_recurrent_url]
+
+    stub_flutterwave
+
+    response = @client.account.initiate_recurrent(sample_initiate_recurrent_body)
     assert response.successful?
   end
 end

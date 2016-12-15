@@ -35,8 +35,11 @@ module Flutterwave
       }.freeze
 
       ACCOUNT = {
+        initiate_recurrent_url: '/pwc/rest/recurrent/account',
         charge_url: '/pwc/rest/account/pay',
+        charge_recurrent_url: '/pwc/rest/recurrent/account/charge',
         validate_url: '/pwc/rest/account/pay/validate',
+        validate_recurrent_url: '/pwc/rest/recurrent/account/validate',
         alt_validate_url: '/pwc/rest/accessbank/ussd/validate',
         resend_url: '/pwc/rest/account/pay/resendotp'
       }.freeze
