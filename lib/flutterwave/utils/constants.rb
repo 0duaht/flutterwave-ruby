@@ -8,6 +8,13 @@ module Flutterwave
         list_url: '/pwc/rest/fw/banks'
       }.freeze
 
+      ACH = {
+        list_url: '/pwc/rest/card/mvva/institutions',
+        id_url: '/pwc/rest/card/mvva/institutions/id',
+        add_user_url: '/pwc/rest/card/mvva/adduser',
+        charge_url: '/pwc/rest/card/mvva/chargeach'
+      }.freeze
+
       BVN = {
         verify_url: '/pwc/rest/bvn/verify/',
         resend_url: '/pwc/rest/bvn/resendotp/',
