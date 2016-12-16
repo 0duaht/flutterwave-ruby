@@ -34,4 +34,8 @@ class ClientTest < Minitest::Test
   def test_that_it_has_ach_instance
     refute_nil @client.instance_variable_get(:@ach)
   end
+
+  def test_that_it_has_pay_instance
+    refute_nil @client.instance_variable_get(:@pay)
+  end
 end

@@ -15,6 +15,15 @@ module Flutterwave
         charge_url: '/pwc/rest/card/mvva/chargeach'
       }.freeze
 
+      PAY = {
+        link_url: '/pwc/rest/pay/linkaccount',
+        validate_url: '/pwc/rest/pay/linkaccount/validate',
+        linked_accounts_url: '/pwc/rest/pay/getlinkedaccounts',
+        send_url: '/pwc/rest/pay/send',
+        unlink_url: '/pwc/rest/pay/unlinkaccount',
+        status_url: '/pwc/rest/pay/status'
+      }.freeze
+
       BVN = {
         verify_url: '/pwc/rest/bvn/verify/',
         resend_url: '/pwc/rest/bvn/resendotp/',
