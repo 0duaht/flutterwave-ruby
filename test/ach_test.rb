@@ -11,9 +11,9 @@ class ACHTest < Minitest::Test
         'pin' => nil,
         'username' => 'Online ID'
       },
-      'name' => 'Bank of America',
+      'name' => Faker::Company.name,
       'hasmfa' => true,
-      'id' => '5301a93ac140de84910000e0',
+      'id' => Faker::Crypto.md5[0, 24],
       'type' => 'bofa',
       'mfatypes' => ['questions(3)']
     }
@@ -53,6 +53,76 @@ class ACHTest < Minitest::Test
     response_container([@sample_institution])
   end
 
+  def sample_charge_body
+    {
+      publictoken: Faker::Crypto.md5[0, 19].to_s,
+      accountid: Faker::Number.number(2),
+      custid: Faker::Number.number(2),
+      narration: Faker::Lorem.sentence,
+      amount: 1,
+      currency: 'NGN',
+      trxreference: "FLW#{Faker::Number.number(8)}"
+    }
+  end
+
+  def sample_charge_response
+    {
+      'data' => {
+        'responsetoken' => nil,
+        'responsecode' => '00',
+        'responsemessage' => 'Successful',
+        'transactionreference' => "TST#{Faker::Number.number(9)}",
+        'otptransactionidentifier' => nil,
+        'responsehtml' => nil
+      },
+      'status' => 'success'
+    }
+  end
+
+  def sample_add_user_body
+    {
+      username: Faker::Internet.user_name,
+      password: Faker::Internet.password,
+      pin: Faker::Number.number(4),
+      email: Faker::Internet.email,
+      institution: @sample_institution['type'],
+      country: Faker::Address.country_code
+    }
+  end
+
+  def sample_add_user_response
+    @sample_account = {
+      'balance' => {
+        'available' => Faker::Number.number(5),
+        'current' => Faker::Number.number(4)
+      },
+      'meta' => {
+        'limit' => nil,
+        'name' => Faker::Company.name,
+        'number' => Faker::Number.number(4)
+      },
+      'numbers' => nil,
+      'type' => 'depository',
+      'subtype' => 'savings',
+      'id' => nil,
+      'item' => nil,
+      'user' => nil,
+      'institutionType' => nil
+    }
+
+    {
+      'data' => {
+        'responsecode' => '00',
+        'responsemessage' => Faker::Lorem.sentence,
+        'transactionreference' => "FLWT#{Faker::Number.number(8)}",
+        'accounts' => [
+          @sample_account, @sample_account, @sample_account, @sample_account
+        ]
+      },
+      'status' => 'success'
+    }
+  end
+
   def test_list
     @response_data = sample_list_response
     @url = Flutterwave::Utils::Constants::ACH[:list_url]
@@ -61,11 +131,9 @@ class ACHTest < Minitest::Test
 
     response = @client.ach.list
 
-    assert response.is_a? Array
-    assert response.length == 4
-    assert response.all? do |item|
-      item.is_a? Flutterwave::Institution
-    end
+    assert response.successful?
+    assert response.institutions.is_a? Array
+    assert response.institutions.length == 4
   end
 
   def test_find_by_id
@@ -75,19 +143,29 @@ class ACHTest < Minitest::Test
     stub_flutterwave
     response = @client.ach.find_by_id(id: @sample_institution['id'])
 
-    assert_equal @sample_institution['name'], response.name
+    assert_equal @sample_institution['name'],
+                 response.institutions.first['name']
   end
 
-  def test_find_by_name
-    @response_data = sample_list_response
-    @url = Flutterwave::Utils::Constants::ACH[:list_url]
+  def test_add_user
+    @response_data = sample_add_user_response
+    @url = Flutterwave::Utils::Constants::ACH[:add_user_url]
 
     stub_flutterwave
+    response = @client.ach.add_user(sample_add_user_body)
 
-    @institution_instance = Flutterwave::Institution.new(@sample_institution)
-    response = @client.ach.find_by_name('bank of america')
+    assert response.successful?
+    assert response.accounts.is_a? Array
+    assert response.accounts.length == 4
+  end
 
-    assert_equal @sample_institution['id'], response.id
-    assert_equal @sample_institution['name'], response.name
+  def test_charge
+    @response_data = sample_charge_response
+    @url = Flutterwave::Utils::Constants::ACH[:charge_url]
+
+    stub_flutterwave
+    response = @client.ach.charge(sample_charge_body)
+
+    assert response.successful?
   end
 end

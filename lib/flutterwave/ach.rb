@@ -16,14 +16,7 @@ module Flutterwave
         merchantid: client.merchant_key
       )
 
-      if response['data']['responsecode'] != '00'
-        return Flutterwave::Response.new(response)
-      end
-
-      all_institutions = response['data']['institutions']
-      all_institutions.each.inject([]) do |list, institution|
-        list << Institution.new(institution)
-      end
+      Flutterwave::Response.new(response)
     end
 
     def find_by_id(options)
@@ -35,17 +28,7 @@ module Flutterwave
         merchantid: client.merchant_key
       )
 
-      if response['data']['responsecode'] != '00'
-        return Flutterwave::Response.new(response)
-      end
-
-      Institution.new(response['data']['institutions'].first)
-    end
-
-    def find_by_name(name_match)
-      list.detect do |institution|
-        !(institution.name.downcase =~ /#{name_match.downcase}/).nil?
-      end
+      Flutterwave::Response.new(response)
     end
 
     def add_user(options)
@@ -100,19 +83,6 @@ module Flutterwave
       ) if plain_text.empty?
 
       encrypt_data(plain_text, client.api_key)
-    end
-  end
-
-  class Institution
-    attr_accessor :credentials, :name, :hasmfa, :id, :type, :mfatypes
-
-    def initialize(options)
-      @credentials = options['credentials']
-      @name = options['name']
-      @hasmfa = options['hasmfa']
-      @id = options['id']
-      @type = options['type']
-      @mfatypes = options['mfatypes']
     end
   end
 end
