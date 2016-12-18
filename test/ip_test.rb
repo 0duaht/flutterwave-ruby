@@ -5,7 +5,7 @@ class IPTest < Minitest::Test
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
     @client = Flutterwave::Client.new(merchant_key, api_key)
-    @ip_address = Faker::Internet.ip_v4_address
+    @ip = Faker::Internet.ip_v4_address
   end
 
   def stub_flutterwave
@@ -15,11 +15,17 @@ class IPTest < Minitest::Test
     ).to_return(status: 200, body: @response_data.to_json)
   end
 
-  def sample_data
+  def sample_check_body
+    {
+      ip: @ip
+    }
+  end
+
+  def sample_check_response
     {
       'data' => {
         'responsecode' => '00',
-        'ipaddress' => @ip_address,
+        'ipaddress' => @ip,
         'alpha2code' => Faker::Address.country_code,
         'alpha3code' => Faker::Address.country_code << 'X',
         'responsemessage' => Faker::Lorem.sentence,
@@ -31,12 +37,12 @@ class IPTest < Minitest::Test
   end
 
   def test_check
-    @response_data = sample_data
+    @response_data = sample_check_response
     @url = Flutterwave::Utils::Constants::IP[:check_url]
 
     stub_flutterwave
 
-    response = @client.ip.check(@ip_address)
+    response = @client.ip.check(sample_check_body)
     assert response.successful?
   end
 end

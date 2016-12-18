@@ -1,5 +1,3 @@
-require 'flutterwave/utils/helpers'
-
 module Flutterwave
   class BankAPI
     attr_accessor :client

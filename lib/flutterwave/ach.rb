@@ -1,6 +1,3 @@
-require 'flutterwave/utils/helpers'
-require 'flutterwave/utils/missing_key_error'
-
 module Flutterwave
   class ACH
     include Flutterwave::Helpers
@@ -19,7 +16,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def find_by_id(options)
+    def find_by_id(options = {})
       @options = options
 
       response = post(
@@ -31,7 +28,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def add_user(options)
+    def add_user(options = {})
       @options = options
 
       request_params = {
@@ -42,9 +39,7 @@ module Flutterwave
         merchantid: client.merchant_key
       }
 
-      request_params = request_params.merge(
-        pin: encrypt(:pin)
-      ) if options[:pin]
+      request_params[:pin] = encrypt(:pin) if options[:pin]
 
       response = post(
         Flutterwave::Utils::Constants::ACH[:add_user_url],
@@ -54,7 +49,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def charge(options)
+    def charge(options = {})
       @options = options
 
       response = post(
@@ -70,10 +65,6 @@ module Flutterwave
       )
 
       Flutterwave::Response.new(response)
-    end
-
-    def post(url, data = {})
-      Flutterwave::Utils::NetworkManager.post(url, data)
     end
 
     def encrypt(key)

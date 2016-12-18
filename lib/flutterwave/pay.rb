@@ -1,5 +1,3 @@
-require 'flutterwave/utils/helpers'
-require 'flutterwave/utils/missing_key_error'
 require 'flutterwave/response'
 require 'time'
 
@@ -74,14 +72,7 @@ module Flutterwave
         country: encrypt(:country)
       )
 
-      all_linked_accounts = response['data']['linkedaccounts']
-      all_linked_accounts.each.inject([]) do |list, linked_account|
-        list << LinkedAccount.new(
-          linked_account['accountnumber'],
-          linked_account['added'],
-          linked_account['status']
-        )
-      end
+      Flutterwave::Response.new(response)
     end
 
     def unlink(options = {})
@@ -119,16 +110,6 @@ module Flutterwave
       ) if plain_text.empty?
 
       encrypt_data(plain_text, client.api_key)
-    end
-  end
-
-  class LinkedAccount
-    attr_accessor :accountnumber, :added, :status
-
-    def initialize(accountnumber, added, status)
-      @accountnumber = accountnumber
-      @added = Time.parse(added)
-      @status = status
     end
   end
 end

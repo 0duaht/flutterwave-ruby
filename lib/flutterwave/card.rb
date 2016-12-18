@@ -1,5 +1,3 @@
-require 'flutterwave/utils/helpers'
-require 'flutterwave/utils/missing_key_error'
 require 'flutterwave/response'
 
 module Flutterwave
@@ -11,7 +9,7 @@ module Flutterwave
       @client = client
     end
 
-    def tokenize(options)
+    def tokenize(options = {})
       @options = options
       options[:country] ||= 'NG'
 
@@ -26,9 +24,7 @@ module Flutterwave
         merchantid: client.merchant_key
       }
 
-      request_params = request_params.merge(
-        bvn: encrypt(:bvn)
-      ) if options[:authmodel] == 'BVN'
+      request_params[:bvn] = encrypt(:bvn) if options[:authmodel] == 'BVN'
 
       response = post(
         Flutterwave::Utils::Constants::CARD[:tokenize_url],
@@ -38,7 +34,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def preauthorize(options)
+    def preauthorize(options = {})
       @options = options
       options[:country] ||= 'NG'
 
@@ -58,7 +54,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def capture(options)
+    def capture(options = {})
       @options = options
       options[:country] ||= 'NG'
 
@@ -80,7 +76,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def refund(options)
+    def refund(options = {})
       @options = options
       options[:country] ||= 'NG'
 
@@ -101,7 +97,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def void(options)
+    def void(options = {})
       @options = options
       options[:country] ||= 'NG'
 
@@ -122,7 +118,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def enquiry(options)
+    def enquiry(options = {})
       @options = options
 
       request_params = {
@@ -143,7 +139,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def validate_enquiry(options)
+    def validate_enquiry(options = {})
       @options = options
 
       request_params = {
@@ -161,7 +157,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def charge(options)
+    def charge(options = {})
       @options = options
       options[:country] ||= 'NG'
 
@@ -179,21 +175,14 @@ module Flutterwave
         merchantid: client.merchant_key
       }
 
-      request_params = request_params.merge(
-        pin: encrypt(:pin)
-      ) if options[:authmodel] == 'PIN'
+      request_params[:pin] = encrypt(:pin) if options[:authmodel] == 'PIN'
 
-      request_params = request_params.merge(
-        bvn: encrypt(:bvn)
-      ) if options[:authmodel] == 'BVN'
+      request_params[:bvn] = encrypt(:bvn) if options[:authmodel] == 'BVN'
 
-      request_params = request_params.merge(
-        responseurl: encrypt(:responseurl)
-      ) if options[:authmodel] == 'VBVSECURECODE'
+      request_params[:responseurl] = encrypt(:responseurl) if
+        options[:authmodel] == 'VBVSECURECODE'
 
-      request_params = request_params.merge(
-        cardtype: encrypt(:cardtype)
-      ) if options[:cardtype]
+      request_params[:cardtype] = encrypt(:cardtype) if options[:cardtype]
 
       response = post(
         Flutterwave::Utils::Constants::CARD[:charge_url],
@@ -203,7 +192,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def validate_charge(options)
+    def validate_charge(options = {})
       @options = options
 
       request_params = {
@@ -220,7 +209,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def recurrent_charge(options)
+    def recurrent_charge(options = {})
       @options = options
       options[:country] ||= 'NG'
 
@@ -234,9 +223,7 @@ module Flutterwave
         merchantid: client.merchant_key
       }
 
-      request_params = request_params.merge(
-        cardtype: encrypt(:cardtype)
-      ) if options[:cardtype]
+      request_params[:cardtype] = encrypt(:cardtype) if options[:cardtype]
 
       response = post(
         Flutterwave::Utils::Constants::CARD[:charge_url],
@@ -246,7 +233,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def verify(options)
+    def verify(options = {})
       @options = options
 
       request_params = {

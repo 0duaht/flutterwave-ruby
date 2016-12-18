@@ -1,50 +1,70 @@
-require 'flutterwave/utils/helpers'
-require 'flutterwave/response'
-
 module Flutterwave
   class BVN
     include Flutterwave::Helpers
-    attr_accessor :client
+    attr_accessor :client, :options
 
     def initialize(client)
       @client = client
     end
 
-    def verify(otpoption, bvn)
+    def verify(options = {})
+      @options = options
+
+      request_params = {
+        otpoption: encrypt(:otpoption),
+        bvn: encrypt(:bvn),
+        merchantid: client.merchant_key
+      }
+
       response = post(
         Flutterwave::Utils::Constants::BVN[:verify_url],
-        otpoption: encrypt(otpoption),
-        bvn: encrypt(bvn),
-        merchantid: client.merchant_key
+        request_params
       )
 
       Flutterwave::Response.new(response)
     end
 
-    def resend(otpoption, transaction_ref)
+    def resend(options = {})
+      @options = options
+
+      request_params = {
+        validateoption: encrypt(:validateoption),
+        transactionreference: encrypt(:transactionreference),
+        merchantid: client.merchant_key
+      }
+
       response = post(
         Flutterwave::Utils::Constants::BVN[:resend_url],
-        validateoption: encrypt(otpoption),
-        transactionreference: encrypt(transaction_ref),
-        merchantid: client.merchant_key
+        request_params
       )
 
       Flutterwave::Response.new(response)
     end
 
-    def validate(otp, transaction_ref, bvn)
+    def validate(options = {})
+      @options = options
+
+      request_params = {
+        otp: encrypt(:otp),
+        transactionreference: encrypt(:transactionreference),
+        bvn: encrypt(:bvn),
+        merchantid: client.merchant_key
+      }
+
       response = post(
         Flutterwave::Utils::Constants::BVN[:validate_url],
-        otp: encrypt(otp),
-        transactionreference: encrypt(transaction_ref),
-        bvn: encrypt(bvn),
-        merchantid: client.merchant_key
+        request_params
       )
 
       Flutterwave::Response.new(response)
     end
 
-    def encrypt(plain_text)
+    def encrypt(key)
+      plain_text = options[key].to_s
+      raise Flutterwave::Utils::MissingKeyError.new(
+        "#{key.capitalize} key required!"
+      ) if plain_text.empty?
+
       encrypt_data(plain_text, client.api_key)
     end
   end

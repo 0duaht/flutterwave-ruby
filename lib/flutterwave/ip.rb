@@ -1,5 +1,3 @@
-require 'flutterwave/utils/helpers'
-
 module Flutterwave
   class IP
     attr_accessor :client
@@ -8,10 +6,14 @@ module Flutterwave
       @client = client
     end
 
-    def check(ip)
+    def check(options = {})
+      raise Flutterwave::Utils::MissingKeyError.new(
+        'IP key required!'
+      ) unless options[:ip]
+
       response = post(
         Flutterwave::Utils::Constants::IP[:check_url],
-        ip: ip
+        ip: options[:ip]
       )
 
       Flutterwave::Response.new(response)

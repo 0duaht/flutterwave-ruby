@@ -3,9 +3,3 @@ require 'flutterwave'
 require 'minitest/autorun'
 require 'webmock/minitest'
 require 'faker'
-
-module TestData
-  COMMON_RESPONSE = {
-    'transactionReference' => Faker::Crypto.md5[0, 7].upcase,
-  }.freeze
-end

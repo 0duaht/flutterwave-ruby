@@ -29,11 +29,7 @@ class BankTest < Minitest::Test
   end
 
   def test_list
-    @response_data = sample_data
-    @url = Flutterwave::Utils::Constants::BANK[:list_url]
-
-    stub_flutterwave
-
+    stub_values
     response = @client.bank.list
 
     assert response.is_a? Array
@@ -44,15 +40,27 @@ class BankTest < Minitest::Test
   end
 
   def test_find_by_code
-    @response_data = sample_data
-    @url = Flutterwave::Utils::Constants::BANK[:list_url]
-
-    stub_flutterwave
-
+    stub_values
     @gtb_instance = Flutterwave::Bank.new(@gtb_code, @gtb_name)
     response = @client.bank.find_by_code(@gtb_code)
 
     assert_equal @gtb_instance.code, response.code
     assert_equal @gtb_instance.name, response.name
+  end
+
+  def test_find_by_name
+    stub_values
+    @gtb_instance = Flutterwave::Bank.new(@gtb_code, @gtb_name)
+    response = @client.bank.find_by_name(@gtb_name)
+
+    assert_equal @gtb_instance.code, response.code
+    assert_equal @gtb_instance.name, response.name
+  end
+
+  def stub_values
+    @response_data = sample_data
+    @url = Flutterwave::Utils::Constants::BANK[:list_url]
+
+    stub_flutterwave
   end
 end

@@ -172,9 +172,9 @@ class PayTest < Minitest::Test
 
     response = @client.pay.linked_accounts
 
-    assert response.is_a? Array
-    assert response.length == 2
-    assert response.all? { |item| item.is_a? Flutterwave::LinkedAccount }
+    assert response.successful?
+    assert response.linkedaccounts.is_a? Array
+    assert response.linkedaccounts.length == 2
   end
 
   def test_unlink

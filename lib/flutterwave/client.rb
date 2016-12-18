@@ -1,3 +1,5 @@
+require 'flutterwave/utils/helpers'
+require 'flutterwave/utils/missing_key_error'
 require 'flutterwave/bvn'
 require 'flutterwave/bin'
 require 'flutterwave/ip'

@@ -1,5 +1,3 @@
-require 'flutterwave/utils/helpers'
-require 'flutterwave/utils/missing_key_error'
 require 'flutterwave/response'
 
 module Flutterwave
@@ -11,7 +9,7 @@ module Flutterwave
       @client = client
     end
 
-    def initiate_recurrent(options)
+    def initiate_recurrent(options = {})
       @options = options
 
       request_params = {
@@ -27,7 +25,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def validate_recurrent(options)
+    def validate_recurrent(options = {})
       @options = options
 
       request_params = {
@@ -47,7 +45,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def charge_recurrent(options)
+    def charge_recurrent(options = {})
       @options = options
 
       request_params = {
@@ -65,7 +63,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def charge(options)
+    def charge(options = {})
       @options = options
       options[:country] ||= 'NG'
 
@@ -83,9 +81,7 @@ module Flutterwave
         merchantid: client.merchant_key
       }
 
-      request_params = request_params.merge(
-        passcode: encrypt(:passcode)
-      ) if options[:passcode]
+      request_params[:passcode] = encrypt(:passcode) if options[:passcode]
 
       response = post(
         Flutterwave::Utils::Constants::ACCOUNT[:charge_url],
@@ -95,7 +91,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def resend(options)
+    def resend(options = {})
       @options = options
 
       request_params = {
@@ -112,7 +108,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def validate(options)
+    def validate(options = {})
       @options = options
 
       request_params = {
@@ -129,7 +125,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
-    def alt_validate(options)
+    def alt_validate(options = {})
       @options = options
 
       request_params = {
