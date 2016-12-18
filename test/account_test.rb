@@ -28,7 +28,85 @@ class AccountTest < Minitest::Test
 
   def sample_initiate_recurrent_body
     {
-      accountNumber: Faker::Number.number(10),
+      accountNumber: Faker::Number.number(10)
+    }
+  end
+
+  def sample_validate_response
+    {
+      'data' => {
+        'responsecode' => '00',
+        'responsemessage' => Faker::Lorem.sentence,
+        'transactionreference' => Faker::Crypto.md5[0, 5]
+      },
+      'status' => 'success'
+    }
+  end
+
+  def sample_validate_body
+    {
+      otp: Faker::Number.number(6),
+      transactionreference: Faker::Crypto.md5[0, 5]
+    }
+  end
+
+  def sample_validate_recurrent_response
+    {
+      'data' => {
+        'accountToken' => Faker::Crypto.md5[0, 22],
+        'responseCode' => '00',
+        'responseDescription' => Faker::Lorem.sentence,
+        'transactionreference' => Faker::Crypto.md5[0, 5]
+      },
+      'status' => 'success'
+    }
+  end
+
+  def sample_validate_recurrent_body
+    {
+      accountNumber: Faker::Number.number(11),
+      otp: Faker::Number.number(6),
+      reference: Faker::Crypto.md5[0, 5],
+      billingamount: Faker::Number.number(3),
+      debitnarration: Faker::Lorem.sentence
+    }
+  end
+
+  def sample_charge_recurrent_response
+    {
+      'data' => {
+        'responseCode' => '00',
+        'responseDescription' => Faker::Lorem.sentence,
+        'transactionreference' => Faker::Crypto.md5[0, 5]
+      },
+      'status' => 'success'
+    }
+  end
+
+  def sample_charge_recurrent_body
+    {
+      accountToken: Faker::Crypto.md5[0, 22],
+      billingamount: Faker::Number.number(3),
+      debitnarration: Faker::Lorem.sentence
+    }
+  end
+
+  def sample_alt_validate_response
+    {
+      'data' => {
+        'valid' => true,
+        'responsecode' => '00',
+        'responsemessage' => Faker::Lorem.sentence,
+        'transactionreference' => Faker::Crypto.md5[0, 5]
+      },
+      'status' => 'success'
+    }
+  end
+
+  def sample_alt_validate_body
+    {
+      otp: Faker::Number.number(6),
+      phonenumber: Faker::Number.number(11)
     }
   end
 
@@ -96,6 +174,26 @@ class AccountTest < Minitest::Test
     assert response.successful?
   end
 
+  def test_validate
+    @response_data = sample_validate_response
+    @url = Flutterwave::Utils::Constants::ACCOUNT[:validate_url]
+
+    stub_flutterwave
+
+    response = @client.account.validate(sample_validate_body)
+    assert response.successful?
+  end
+
+  def test_alt_validate
+    @response_data = sample_alt_validate_response
+    @url = Flutterwave::Utils::Constants::ACCOUNT[:alt_validate_url]
+
+    stub_flutterwave
+
+    response = @client.account.alt_validate(sample_alt_validate_body)
+    assert response.successful?
+  end
+
   def test_initiate_recurrent
     @response_data = sample_initiate_recurrent_response
     @url = Flutterwave::Utils::Constants::ACCOUNT[:initiate_recurrent_url]
@@ -103,6 +201,30 @@ class AccountTest < Minitest::Test
     stub_flutterwave
 
     response = @client.account.initiate_recurrent(sample_initiate_recurrent_body)
+    assert response.successful?
+  end
+
+  def test_validate_recurrent
+    @response_data = sample_validate_recurrent_response
+    @url = Flutterwave::Utils::Constants::ACCOUNT[:validate_recurrent_url]
+
+    stub_flutterwave
+
+    response = @client.account.validate_recurrent(
+      sample_validate_recurrent_body
+    )
+    assert response.successful?
+  end
+
+  def test_charge_recurrent
+    @response_data = sample_charge_recurrent_response
+    @url = Flutterwave::Utils::Constants::ACCOUNT[:charge_recurrent_url]
+
+    stub_flutterwave
+
+    response = @client.account.charge_recurrent(
+      sample_charge_recurrent_body
+    )
     assert response.successful?
   end
 end
