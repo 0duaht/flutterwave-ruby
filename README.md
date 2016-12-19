@@ -6,6 +6,13 @@ Ruby SDK for convenient access to the Flutterwave API from Ruby applications. Fu
 
     gem install flutterwave
 
+By default, the base API URL used is the test/staging URL - `http://staging1flutterwave.co:8080`
+To change to production, set the value of the `FLUTTERWAVE_BASE_URL` environment variable to `https://prod1flutterwave.co:8181`
+
+
+Here's a guide on cross-platform ways to set environment variables - https://www.twilio.com/blog/2015/02/managing-development-environment-variables-across-multiple-ruby-applications.html
+
+
 ## Usage
 
 The library needs to be configured with your merchant key and API key. These are accessible from the Settings panel at https://www.flutterwavedev.com/
