@@ -7,6 +7,7 @@ Ruby SDK for convenient access to the Flutterwave API from Ruby applications. Fu
     gem install flutterwave
 
 By default, the base API URL used is the test/staging URL - `http://staging1flutterwave.co:8080`
+
 To change to production, set the value of the `FLUTTERWAVE_BASE_URL` environment variable to `https://prod1flutterwave.co:8181`
 
 
@@ -28,7 +29,9 @@ client = Flutterwave::Client.new(merchant_key, api_key)
 ```
 
 ## API operations
-All API operations are performed through the client instance. API responses are used to initialize a response class that allows direct access to JSON keys as methods. Arguments to operation methods adapt the same signature as sample requests to the API endpoint. For instance, an API call that returns:
+All API operations are performed through the client instance. API responses are used to initialize a response class that allows direct access to JSON keys as methods. Arguments to operation methods adapt the same signature as sample requests to the API endpoint.
+
+For instance, an API call that returns:
 
 ```json
 {
@@ -44,6 +47,7 @@ Gets initialized as a `Flutterwave::Response` object with method keys - `respons
 
 ## Examples
 An example using the wrapper for accessing https://www.flutterwave.com/documentation/alternative-payments/
+
 The resend-otp operation could be accessed through this sample:
 
 ```ruby
@@ -56,10 +60,14 @@ response = client.account.resend({
 print response.responsemessage if response.successful?
 ```
 
-The method arguments to the resend method match the same hash-signature as the request sample at https://www.flutterwave.com/documentation/alternative-payments/#resend-otp. Response from the API is used to construct an instance of `Flutterwave::Response` which makes keys in the `data` hash accessible as methods.
+The method arguments to the resend method match the same hash-signature as the request sample at https://www.flutterwave.com/documentation/alternative-payments/#resend-otp.
+
+Response from the API is used to construct an instance of `Flutterwave::Response` which makes keys in the `data` hash accessible as methods.
 
 ## Banks Listing
-The only operation that does not follow the description above is when obtaining listing of banks, alongside their codes and names. To ease operation with the listing, a `Flutterwave::Bank` object is created for each bank object returned by the API. The `Flutterwave::BankAPI` also comes with some helper methods that help find a bank by code, or by a regex matching the bank's name. An example usage is described below:
+The only operation that does not follow the description above is when obtaining listing of banks, alongside their codes and names. To ease operation with the listing, a `Flutterwave::Bank` object is created for each bank object returned by the API. The `Flutterwave::BankAPI` also comes with some helper methods that help find a bank by code, or by a regex matching the bank's name.
+
+An example usage is described below:
 
 ```ruby
 client = Flutterwave::Client.new('sample_merchant_key', 'sample_api_key')
