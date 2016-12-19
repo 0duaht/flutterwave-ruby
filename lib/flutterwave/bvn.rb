@@ -7,6 +7,7 @@ module Flutterwave
       @client = client
     end
 
+    # https://www.flutterwave.com/documentation/compliance/ - Verify (request a user enter their BVN for verification)
     def verify(options = {})
       @options = options
 
@@ -24,6 +25,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/compliance/ - Resend OTP
     def resend(options = {})
       @options = options
 
@@ -41,6 +43,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/compliance/ - Validate (This is used to validate the OTP entered by the user)
     def validate(options = {})
       @options = options
 

@@ -9,6 +9,7 @@ module Flutterwave
       @client = client
     end
 
+    # https://www.flutterwave.com/documentation/alternative-payments-recurrent/#initiate
     def initiate_recurrent(options = {})
       @options = options
 
@@ -25,6 +26,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/alternative-payments-recurrent/#validate
     def validate_recurrent(options = {})
       @options = options
 
@@ -45,6 +47,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/alternative-payments-recurrent/#initiate
     def charge_recurrent(options = {})
       @options = options
 
@@ -63,6 +66,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/alternative-payments/#charge-ii
     def charge(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -91,6 +95,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/alternative-payments/#resend-otp
     def resend(options = {})
       @options = options
 
@@ -108,6 +113,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/alternative-payments/#validate-ii
     def validate(options = {})
       @options = options
 
@@ -125,6 +131,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/alternative-payments/#validate-ii-alt
     def alt_validate(options = {})
       @options = options
 

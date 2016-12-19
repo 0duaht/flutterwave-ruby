@@ -7,6 +7,7 @@ module Flutterwave
       @client = client
     end
 
+    # https://www.flutterwave.com/documentation/ach-payments/#get-institutions
     def list
       response = post(
         Flutterwave::Utils::Constants::ACH[:list_url],
@@ -16,6 +17,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/ach-payments/#get-institution-by-id
     def find_by_id(options = {})
       @options = options
 
@@ -28,6 +30,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/ach-payments/#add-user
     def add_user(options = {})
       @options = options
 
@@ -49,6 +52,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/ach-payments/#charge
     def charge(options = {})
       @options = options
 

@@ -10,6 +10,7 @@ module Flutterwave
       @client = client
     end
 
+    # https://www.flutterwave.com/documentation/pay/ - Link Account
     def link(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -24,6 +25,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/pay/ - Validate Step 1
     def validate(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -40,6 +42,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/pay/ - Send
     def send(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -62,6 +65,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/pay/ - Get Linked Accounts
     def linked_accounts(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -75,6 +79,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/pay/ - Unlink Account
     def unlink(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -89,6 +94,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/pay/ - Get Transaction Status
     def status(options = {})
       @options = options
       options[:country] ||= 'NG'

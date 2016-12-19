@@ -7,6 +7,7 @@ module Flutterwave
       @client = client
     end
 
+    # https://www.flutterwave.com/documentation/compliance/ - Verify Card BIN API
     def check(options = {})
       @options = options
 

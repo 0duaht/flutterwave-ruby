@@ -6,6 +6,7 @@ module Flutterwave
       @client = client
     end
 
+    # https://www.flutterwave.com/documentation/banks-enquiry/
     def list
       response = post(
         Flutterwave::Utils::Constants::BANK[:list_url]

@@ -9,6 +9,7 @@ module Flutterwave
       @client = client
     end
 
+    # https://www.flutterwave.com/documentation/card-payments-with-preauth/#tokenize
     def tokenize(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -34,6 +35,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-payments-with-preauth/#preauthorize
     def preauthorize(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -54,6 +56,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-payments-with-preauth/#capture
     def capture(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -76,6 +79,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-payments-with-preauth/#refund
     def refund(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -97,6 +101,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-payments-with-preauth/#void
     def void(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -118,6 +123,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-enquiry/ - Card Enquiry
     def enquiry(options = {})
       @options = options
 
@@ -139,6 +145,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-enquiry/ - Validate
     def validate_enquiry(options = {})
       @options = options
 
@@ -157,6 +164,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-payments/#tokenize-and-charge
     def charge(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -192,6 +200,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-payments/#validate
     def validate_charge(options = {})
       @options = options
 
@@ -209,6 +218,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/card-payments/#recurrent-charge
     def recurrent_charge(options = {})
       @options = options
       options[:country] ||= 'NG'
@@ -233,6 +243,7 @@ module Flutterwave
       Flutterwave::Response.new(response)
     end
 
+    # https://www.flutterwave.com/documentation/check-transaction-status/
     def verify(options = {})
       @options = options
 
