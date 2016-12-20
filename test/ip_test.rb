@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class IPTest < Minitest::Test
+  include FlutterWaveTestHelper
+
+  attr_reader :client, :ip, :response_date, :url
+
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
@@ -11,13 +15,13 @@ class IPTest < Minitest::Test
   def stub_flutterwave
     stub_request(
       :post, "#{Flutterwave::Utils::Constants::BASE_URL}"\
-      "#{@url}"
+      "#{url}"
     ).to_return(status: 200, body: @response_data.to_json)
   end
 
   def sample_check_body
     {
-      ip: @ip
+      ip: ip
     }
   end
 
@@ -25,7 +29,7 @@ class IPTest < Minitest::Test
     {
       'data' => {
         'responsecode' => '00',
-        'ipaddress' => @ip,
+        'ipaddress' => ip,
         'alpha2code' => Faker::Address.country_code,
         'alpha3code' => Faker::Address.country_code << 'X',
         'responsemessage' => Faker::Lorem.sentence,
@@ -42,7 +46,7 @@ class IPTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.ip.check(sample_check_body)
+    response = client.ip.check(sample_check_body)
     assert response.successful?
   end
 end

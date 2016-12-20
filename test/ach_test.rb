@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class ACHTest < Minitest::Test
+  attr_reader :client, :sample_institution
+
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
@@ -39,18 +41,14 @@ class ACHTest < Minitest::Test
   end
 
   def sample_list_response
-    institutions = [
-      @sample_institution,
-      @sample_institution,
-      @sample_institution,
-      @sample_institution
-    ]
+    institutions = []
+    4.times { institutions << sample_institution  }
 
     response_container(institutions)
   end
 
   def sample_find_by_id_response
-    response_container([@sample_institution])
+    response_container([sample_institution])
   end
 
   def sample_charge_body
@@ -85,7 +83,7 @@ class ACHTest < Minitest::Test
       password: Faker::Internet.password,
       pin: Faker::Number.number(4),
       email: Faker::Internet.email,
-      institution: @sample_institution['type'],
+      institution: sample_institution['type'],
       country: Faker::Address.country_code
     }
   end
@@ -129,7 +127,7 @@ class ACHTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.ach.list
+    response = client.ach.list
 
     assert response.successful?
     assert response.institutions.is_a? Array
@@ -141,9 +139,9 @@ class ACHTest < Minitest::Test
     @url = Flutterwave::Utils::Constants::ACH[:id_url]
 
     stub_flutterwave
-    response = @client.ach.find_by_id(id: @sample_institution['id'])
+    response = client.ach.find_by_id(id: sample_institution['id'])
 
-    assert_equal @sample_institution['name'],
+    assert_equal sample_institution['name'],
                  response.institutions.first['name']
   end
 
@@ -152,7 +150,7 @@ class ACHTest < Minitest::Test
     @url = Flutterwave::Utils::Constants::ACH[:add_user_url]
 
     stub_flutterwave
-    response = @client.ach.add_user(sample_add_user_body)
+    response = client.ach.add_user(sample_add_user_body)
 
     assert response.successful?
     assert response.accounts.is_a? Array
@@ -164,7 +162,7 @@ class ACHTest < Minitest::Test
     @url = Flutterwave::Utils::Constants::ACH[:charge_url]
 
     stub_flutterwave
-    response = @client.ach.charge(sample_charge_body)
+    response = client.ach.charge(sample_charge_body)
 
     assert response.successful?
   end

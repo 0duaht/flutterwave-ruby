@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class ClientTest < Minitest::Test
+  attr_reader :client
+
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
@@ -8,34 +10,34 @@ class ClientTest < Minitest::Test
   end
 
   def test_that_it_has_bvn_instance
-    refute_nil @client.instance_variable_get(:@bvn)
+    refute_nil client.instance_variable_get(:@bvn)
   end
 
   def test_that_it_has_bin_instance
-    refute_nil @client.instance_variable_get(:@bin)
+    refute_nil client.instance_variable_get(:@bin)
   end
 
   def test_that_it_has_ip_instance
-    refute_nil @client.instance_variable_get(:@ip)
+    refute_nil client.instance_variable_get(:@ip)
   end
 
   def test_that_it_has_bank_instance
-    refute_nil @client.instance_variable_get(:@bank)
+    refute_nil client.instance_variable_get(:@bank)
   end
 
   def test_that_it_has_card_instance
-    refute_nil @client.instance_variable_get(:@card)
+    refute_nil client.instance_variable_get(:@card)
   end
 
   def test_that_it_has_account_instance
-    refute_nil @client.instance_variable_get(:@account)
+    refute_nil client.instance_variable_get(:@account)
   end
 
   def test_that_it_has_ach_instance
-    refute_nil @client.instance_variable_get(:@ach)
+    refute_nil client.instance_variable_get(:@ach)
   end
 
   def test_that_it_has_pay_instance
-    refute_nil @client.instance_variable_get(:@pay)
+    refute_nil client.instance_variable_get(:@pay)
   end
 end

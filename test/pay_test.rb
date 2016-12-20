@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class PayTest < Minitest::Test
+  include FlutterWaveTestHelper
+
+  attr_reader :client, :url, :response_data
+
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
@@ -140,7 +144,7 @@ class PayTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.pay.link(sample_link_body)
+    response = client.pay.link(sample_link_body)
     assert response.responsecode.eql? '02'
   end
 
@@ -150,7 +154,7 @@ class PayTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.pay.validate(sample_validate_body)
+    response = client.pay.validate(sample_validate_body)
     assert response.successful?
   end
 
@@ -160,7 +164,7 @@ class PayTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.pay.send(sample_send_body)
+    response = client.pay.send(sample_send_body)
     assert response.successful?
   end
 
@@ -170,7 +174,7 @@ class PayTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.pay.linked_accounts
+    response = client.pay.linked_accounts
 
     assert response.successful?
     assert response.linkedaccounts.is_a? Array
@@ -183,7 +187,7 @@ class PayTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.pay.unlink(sample_unlink_body)
+    response = client.pay.unlink(sample_unlink_body)
     assert response.successful?
   end
 
@@ -193,7 +197,7 @@ class PayTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.pay.status(sample_status_body)
+    response = client.pay.status(sample_status_body)
     assert response.successful?
   end
 end

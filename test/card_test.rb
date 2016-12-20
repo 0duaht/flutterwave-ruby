@@ -1,18 +1,14 @@
 require 'test_helper'
 
 class CardTest < Minitest::Test
+  include FlutterWaveTestHelper
+
+  attr_reader :client, :response_data, :url
+
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
     @client = Flutterwave::Client.new(merchant_key, api_key)
-    @ip_address = Faker::Internet.ip_v4_address
-  end
-
-  def stub_flutterwave
-    stub_request(
-      :post, "#{Flutterwave::Utils::Constants::BASE_URL}"\
-      "#{@url}"
-    ).to_return(status: 200, body: @response_data.to_json)
   end
 
   def sample_verify_body
@@ -245,7 +241,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.tokenize(sample_tokenize_body)
+    response = client.card.tokenize(sample_tokenize_body)
     assert response.successful?
   end
 
@@ -255,7 +251,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.preauthorize(sample_preauthorize_body)
+    response = client.card.preauthorize(sample_preauthorize_body)
     assert response.successful?
   end
 
@@ -265,7 +261,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.capture(sample_capture_body)
+    response = client.card.capture(sample_capture_body)
     assert response.successful?
   end
 
@@ -275,7 +271,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.refund(sample_refund_or_void_body)
+    response = client.card.refund(sample_refund_or_void_body)
     assert response.successful?
   end
 
@@ -285,7 +281,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.void(sample_refund_or_void_body)
+    response = client.card.void(sample_refund_or_void_body)
     assert response.successful?
   end
 
@@ -295,7 +291,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.enquiry(sample_enquiry_body)
+    response = client.card.enquiry(sample_enquiry_body)
     assert response.responsecode.eql? '02'
   end
 
@@ -305,7 +301,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.validate_enquiry(sample_validate_enquiry_body)
+    response = client.card.validate_enquiry(sample_validate_enquiry_body)
     assert response.successful?
   end
 
@@ -315,7 +311,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.charge(sample_charge_body)
+    response = client.card.charge(sample_charge_body)
     assert response.successful?
   end
 
@@ -325,7 +321,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.recurrent_charge(sample_recurrent_charge_body)
+    response = client.card.recurrent_charge(sample_recurrent_charge_body)
     assert response.successful?
   end
 
@@ -335,7 +331,7 @@ class CardTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.card.verify(sample_verify_body)
+    response = client.card.verify(sample_verify_body)
     assert response.successful?
   end
 end
