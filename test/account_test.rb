@@ -1,19 +1,14 @@
 require 'test_helper'
 
 class AccountTest < Minitest::Test
-  attr_reader :client
+  include FlutterWaveTestHelper
+
+  attr_reader :client, :url, :response_data
 
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
     @client = Flutterwave::Client.new(merchant_key, api_key)
-  end
-
-  def stub_flutterwave
-    stub_request(
-      :post, "#{Flutterwave::Utils::Constants::BASE_URL}"\
-      "#{@url}"
-    ).to_return(status: 200, body: @response_data.to_json)
   end
 
   def sample_initiate_recurrent_response

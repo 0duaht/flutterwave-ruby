@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class ACHTest < Minitest::Test
-  attr_reader :client, :sample_institution
+  include FlutterWaveTestHelper
+
+  attr_reader :client, :sample_institution, :url, :response_data
 
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
@@ -19,13 +21,6 @@ class ACHTest < Minitest::Test
       'type' => 'bofa',
       'mfatypes' => ['questions(3)']
     }
-  end
-
-  def stub_flutterwave
-    stub_request(
-      :post, "#{Flutterwave::Utils::Constants::BASE_URL}"\
-      "#{@url}"
-    ).to_return(status: 200, body: @response_data.to_json)
   end
 
   def response_container(institution_list)

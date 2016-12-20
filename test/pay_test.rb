@@ -11,13 +11,6 @@ class PayTest < Minitest::Test
     @client = Flutterwave::Client.new(merchant_key, api_key)
   end
 
-  def stub_flutterwave
-    stub_request(
-      :post, "#{Flutterwave::Utils::Constants::BASE_URL}"\
-      "#{@url}"
-    ).to_return(status: 200, body: @response_data.to_json)
-  end
-
   def sample_linked_accounts_response
     {
       'data' => {
