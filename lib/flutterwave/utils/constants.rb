@@ -1,8 +1,8 @@
 module Flutterwave
   module Utils
     module Constants
-      BASE_URL = ENV['FLUTTERWAVE_BASE_URL'] ||
-                 'http://staging1flutterwave.co:8080'.freeze
+      BASE_URL = (ENV['FLUTTERWAVE_BASE_URL'] ||
+                 'http://staging1flutterwave.co:8080').freeze
       KEY = 'tk_0f86a4ef436f76faab1d3'.freeze
 
       BANK = {
