@@ -1,18 +1,14 @@
 require 'test_helper'
 
 class AccountTest < Minitest::Test
+  include FlutterWaveTestHelper
+
+  attr_reader :client, :url, :response_data
+
   def setup
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
     @client = Flutterwave::Client.new(merchant_key, api_key)
-    @ip_address = Faker::Internet.ip_v4_address
-  end
-
-  def stub_flutterwave
-    stub_request(
-      :post, "#{Flutterwave::Utils::Constants::BASE_URL}"\
-      "#{@url}"
-    ).to_return(status: 200, body: @response_data.to_json)
   end
 
   def sample_initiate_recurrent_response
@@ -160,7 +156,7 @@ class AccountTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.account.charge(sample_charge_body)
+    response = client.account.charge(sample_charge_body)
     assert response.responsecode.eql? '02'
   end
 
@@ -170,7 +166,7 @@ class AccountTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.account.resend(sample_resend_body)
+    response = client.account.resend(sample_resend_body)
     assert response.successful?
   end
 
@@ -180,7 +176,7 @@ class AccountTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.account.validate(sample_validate_body)
+    response = client.account.validate(sample_validate_body)
     assert response.successful?
   end
 
@@ -190,7 +186,7 @@ class AccountTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.account.alt_validate(sample_alt_validate_body)
+    response = client.account.alt_validate(sample_alt_validate_body)
     assert response.successful?
   end
 
@@ -200,7 +196,7 @@ class AccountTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.account.initiate_recurrent(sample_initiate_recurrent_body)
+    response = client.account.initiate_recurrent(sample_initiate_recurrent_body)
     assert response.successful?
   end
 
@@ -210,7 +206,7 @@ class AccountTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.account.validate_recurrent(
+    response = client.account.validate_recurrent(
       sample_validate_recurrent_body
     )
     assert response.successful?
@@ -222,7 +218,7 @@ class AccountTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.account.charge_recurrent(
+    response = client.account.charge_recurrent(
       sample_charge_recurrent_body
     )
     assert response.successful?

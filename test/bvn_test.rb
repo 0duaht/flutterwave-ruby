@@ -1,19 +1,16 @@
 require 'test_helper'
 
 class BVNTest < Minitest::Test
+  include FlutterWaveTestHelper
+
+  attr_reader :client, :bvn_number, :otpoption, :response_data, :url
+
   def setup
     @bvn_number = Faker::Number.number(10)
     @otpoption = 'SMS'
     merchant_key = "tk_#{Faker::Crypto.md5[0, 10]}"
     api_key = "tk_#{Faker::Crypto.md5[0, 20]}"
     @client = Flutterwave::Client.new(merchant_key, api_key)
-  end
-
-  def stub_flutterwave
-    stub_request(
-      :post, "#{Flutterwave::Utils::Constants::BASE_URL}"\
-      "#{@url}"
-    ).to_return(status: 200, body: @response_data.to_json)
   end
 
   def set_response
@@ -29,8 +26,8 @@ class BVNTest < Minitest::Test
 
   def sample_verify_body
     {
-      otpoption: @otpoption,
-      bvn: @bvn_number
+      otpoption: otpoption,
+      bvn: bvn_number
     }
   end
 
@@ -57,16 +54,16 @@ class BVNTest < Minitest::Test
 
   def sample_resend_body
     {
-      validateoption: @otpoption,
+      validateoption: otpoption,
       transactionreference: Faker::Crypto.md5[0, 7].upcase
     }
   end
 
   def sample_validate_body
     {
-      otp: @otpoption,
+      otp: otpoption,
       transactionreference: Faker::Crypto.md5[0, 7].upcase,
-      bvn: @bvn_number
+      bvn: bvn_number
     }
   end
 
@@ -76,7 +73,7 @@ class BVNTest < Minitest::Test
 
     stub_flutterwave
 
-    response = @client.bvn.verify(sample_verify_body)
+    response = client.bvn.verify(sample_verify_body)
     assert response.successful?
   end
 
